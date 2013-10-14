@@ -1,0 +1,74 @@
+
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
+    <title>Converting SVG Path to Polygon</title>
+    <style type="text/css" media="screen">
+        body { background:#eee; margin:1em }
+        h1 { font-size:110%; margin:0; border-bottom:1px solid #ccc }
+        p { margin-bottom:0.2em;}
+        svg { display:block; border:1px solid #ccc; margin:0 -1px 3em -1px; background:#fff; height:150px; width:100%; margin }
+        svg.labeled { height:175px }
+        svg path, svg polygon { stroke:#000; stroke-width:1px; stroke-linecap:round; stroke-linejoin:miter; stroke-miterlimit:10; fill:rgb(255,0,0) }
+        svg text { stroke:none; alignment-baseline:text-before-edge; fill:#666; }
+        svg use { stroke:#000; stroke-width:1px; opacity:0.3; stroke-dasharray:1,3; fill:#999; }
+        svg use.dot { stroke:none; opacity:1.0 }
+        #footer { color:#666; font-size:85%; font-style:italic; margin-top:3em }
+    </style>
+</head><body>
+<script type='text/javascript' src='./dat.gui.min.js'></script>
+<script src="cssTransform.js"></script>
+<header class='jumbotron subhead'>
+    <div class='row'>
+        <div class='span8'>
+            <h1>Path to Polygon Converter</h1>
+            <p class='lead'>Use this to convert svg paths into polygons suitable for use as CSS Shapes. To get started, pick a file and choose the settings you would like to the right.</p>
+        </div>
+        <div class='span4' id="my-gui-container">
+            <input id="files" type="file" name="files[]" />
+        </div>
+    </div>
+</header>
+<figure>
+    <figcaption>Input Preview (with Paths)</figcaption>
+    <div id="svg-original">
+        <svg width="200" height="200">
+            <path fill="#cecece" d='m0,0 100,0 0,100-100 0z' />
+            <path fill='#cecece' d='m100,100c0,0,0,0,100,0,0,0,0,0,0,100,0,0,0,0,-100,0z' />
+        </svg>
+    </div>
+</figure>
+<figure>
+    <figcaption>Output Preview (with Polygons)</figcaption>
+    <div id="svg-result">
+    </div>
+</figure>
+<output id="viewbox"></output>
+<output id="output"></output>
+
+<!--Box2D Canvas:-->
+<!--<canvas id="b2dCanvas"  width='1024' height='500'></canvas>-->
+<!--Original SVG:-->
+<!--<svg viewBox="0 0 700 700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full">-->
+    <!--<defs><circle id="dot" cx="0" cy="0" r="2" fill="#06c" opacity="0.9" stroke="none"/></defs>-->
+    <!--<path id="bat" d="M 308.09375 49.28125 C 278.9168 51.760073 246.10599 60.010311 248.40625 114.5 C 227.41102 119.32497 206.78567 127.292 187.15625 138.625 C 186.7038 138.88625 186.26229 139.14241 185.8125 139.40625 C 162.39032 123.68806 162.34527 105.81753 168.03125 87.4375 C 144.83025 103.59632 121.36479 126.12104 146.09375 169.09375 C 129.96844 184.22573 116.41123 201.46026 105.6875 220.125 C 75.753567 218.91385 66.440809 203.0991 62.0625 183.84375 C 56.733905 195.19638 51.975078 207.68002 52.09375 220.1875 C 52.246242 236.26861 60.456502 252.4293 85.75 266.5 C 79.493061 287.11479 76.234993 308.58455 76.125 330.25 C 48.577924 345.4553 32.202351 336.38549 18.5 321.59375 C 20.950514 350.43761 29.016061 382.82988 81.84375 381.34375 C 86.675992 402.11964 94.592108 422.56571 105.8125 442 C 106.16437 442.60944 106.48684 443.20766 106.84375 443.8125 C 90.818041 469.1959 72.474673 469.40338 53.59375 463.5625 C 60.266822 473.1438 68.047574 482.81619 77.875 489.0625 C 92.237928 498.19168 110.9948 500.1149 137.34375 484.21875 C 152.25041 499.87802 169.19567 512.9885 187.46875 523.46875 C 187.24033 555.85811 171.08974 565.72451 151.1875 570.25 C 177.63859 582.66531 210.0513 591.89884 235.28125 543.90625 C 255.64618 549.91779 276.85065 553.0371 298.21875 553.0625 C 314.30294 581.29437 305.21161 597.89261 290.21875 611.78125 C 319.32337 609.30858 352.02726 601.1259 349.90625 547 C 370.22882 542.13309 390.20211 534.29182 409.21875 523.3125 C 410.28539 522.69664 411.32252 522.00582 412.375 521.375 C 437.80054 537.40703 438.00028 555.8585 432.15625 574.75 C 455.80346 558.28045 479.6752 535.20235 452.5625 490.59375 C 468.22271 475.46259 481.36273 458.2923 491.75 439.78125 C 522.35748 440.72677 531.83044 456.56386 536.25 476 C 541.62707 464.54404 546.41186 451.99125 546.21875 439.375 C 545.97046 423.15412 537.49196 406.84789 511.40625 392.71875 C 517.07317 373.15967 520.05344 352.83277 520.21875 332.34375 C 549.34581 315.09572 566.27863 324.21793 580.40625 339.46875 C 577.91422 310.1363 569.58969 277.15393 514.3125 279.84375 C 509.46475 259.29907 501.6256 239.09114 490.53125 219.875 C 490.48237 219.79039 490.39255 219.74085 490.34375 219.65625 C 506.81416 191.14507 525.83561 190.64537 545.46875 196.71875 C 538.66045 186.94331 530.67956 177.11667 520.5625 170.875 C 505.77604 161.75262 486.38131 160.30703 458.96875 177.78125 C 444.09304 162.14646 427.22327 149.00532 409 138.53125 C 409.57973 107.00847 425.60347 97.31831 445.28125 92.84375 C 419.00895 80.51235 386.84303 71.31745 361.6875 118.21875 C 341.92651 112.32071 321.36802 109.13106 300.625 108.875 C 283.84749 80.10834 292.94611 63.313319 308.09375 49.28125 z M 299.875 162.875 C 395.34873 162.875 472.75 237.63269 472.75 329.875 C 472.75 422.11731 395.34873 496.90625 299.875 496.90625 C 204.40127 496.90625 127 422.11731 127 329.875 C 127 237.63269 204.40127 162.875 299.875 162.875 z "/>-->
+<!--</svg>-->
+<!--Polygon SVG:-->
+<!--<svg id="controlled" class="labeled" viewBox="0 0 700 725" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full"></svg>-->
+
+<!--<script src="../vendor/box2dweb-read-only/Box2D.js"></script>-->
+<!--<script src="transform.js"></script>-->
+<!--<script src="box2d-polygons.js"></script>-->
+<!--<script>-->
+    <!--var i = function() {-->
+        <!--var points = createSamples(document.getElementById('controlled'),pathToPolygon);-->
+
+        <!--new Body(window.physics, {-->
+            <!--color: "red",-->
+            <!--shape : 'polygon',-->
+            <!--points : points-->
+        <!--});-->
+    <!--}-->
+    <!--window.addEventListener("load", i);-->
+<!--</script>-->
+</body></html>

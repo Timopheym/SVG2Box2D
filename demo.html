@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>.:SVG to Box2d:.</title>
+    <style>
+        canvas {
+            background-image: url("i/page-body-bg.png");
+        }
+    </style>
+</head>
+<body>
+<ol>
+    <li>Load file</li>
+    <li>Converts SVG path's to Polygons</li>
+    <li>Convert concave to convex</li>
+    <li>Load in Box2D canvas</li>
+</ol>
+<div id="upload">
+    <input id="files" type="file" name="files[]">
+</div>
+<div id="triangulate">
+
+</div>
+<div id="box2d">
+    <canvas id="b2dCanvas"  width='1024' height='500'></canvas>
+</div>
+<script src="bower_components/jquery/jquery.js"></script>
+<script src="bower_components/bacon/dist/Bacon.js"></script>
+<script src="vendor/poly2tri.javascript/src/poly2tri.js"></script>
+<script src="vendor/box2dweb-read-only/Box2D.js"></script>
+<script src="js/Box2Dshim.js"></script>
+<script src="js/Physics.js"></script>
+<script src="js/Body.js"></script>
+<script src="js/Box2Dapp.js"></script>
+<script src="js/Uploader.js"></script>
+<script src="js/Parser.js"></script>
+<!-- Start app-->
+<script src="js/demo.js"></script>
+</body>
+</html>
